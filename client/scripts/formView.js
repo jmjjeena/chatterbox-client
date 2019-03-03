@@ -1,6 +1,7 @@
 var FormView = {
-
+  $chats: $('#chats'),
   $form: $('form'),
+
 
   initialize: function () {
     FormView.$form.on('submit', FormView.handleSubmit);
@@ -9,13 +10,23 @@ var FormView = {
   handleSubmit: function (event) {
     // Stop the browser from submitting the form
     event.preventDefault();
+    //if(input) {
+    // let newMessage = new MessageView
+    //push the newMessage to MessageView.render
+    //save it to the storage 
+    // reset the form
+    // }
     var message = {};
     message.text = $('form #message').val();
     message.username = window.App.username
-    message.roomname = 'roof';
+
+    message.roomname = $('#rooms select').val();
+
     Parse.create(message);
-    MessagesView.render();
-    console.log('click!');
+    var html = MessageView.render(message);
+    console.log($('#chats'));
+    $('#message').val('');
+    $('#chats').prepend(html);
   },
 
   setStatus: function (active) {

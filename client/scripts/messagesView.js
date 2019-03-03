@@ -1,27 +1,32 @@
 var MessagesView = {
 
   $chats: $('#chats'),
+  $select: $('#rooms select'),
+
 
   initialize: function () {
-    this.render();
+
   },
 
-  render: function () {
-    Parse.readAll((data) => {
-      for (var i = 0; i < data.results.length; i++) {
-
+  render: function (data) {
+    var defaultRoom = this.$select.val();
+    for (var i = 0; i < data.results.length; i++) {
+      // console.log(data.results[i]);
+      if (data.results[i].roomname === defaultRoom) {
         this.renderMessage(data.results[i]);
+
       }
-    });
+
+    }
+
   },
 
   renderMessage: function (message) {
-    if (message.text !== undefined && message.text.length !== 0) {
-      var html = `<div id="message" class="${message.username}">`;
 
-      html += `<b>${message.username}</b>: ${message.text}`;
-      html += "</div>"
+    if (message.text !== undefined && message.username !== undefined && message.text !== null && message.text.length !== 0) {
 
+      var html = MessageView.render(message);
+      //console.log(html);
       this.$chats.append(html);
     }
   }
